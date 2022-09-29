@@ -1,7 +1,17 @@
 import { CollectionReference, DocumentData } from 'firebase-admin/firestore';
 
 import { firestoreDb } from '../../../firestore';
-import { converter } from './converter';
+
+/**
+ * Generic converter function that will take a type argument and create 
+ * a typed FirestoreDataConverter object
+ * 
+ */
+const converter = <T>() => ({
+  toFirestore: (data: T) => data,
+  fromFirestore: (snapshot: FirebaseFirestore.QueryDocumentSnapshot) =>
+    snapshot.data() as T
+});
 
 /**
  * Function that abstracts out the lengthy path to a collection reference 
