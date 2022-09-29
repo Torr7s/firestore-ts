@@ -1,4 +1,4 @@
-import { CollectionReference } from 'firebase-admin/firestore';
+import { CollectionReference, DocumentData } from 'firebase-admin/firestore';
 
 import { firestoreDb } from '../../../firestore';
 import { converter } from './converter';
@@ -14,8 +14,8 @@ import { converter } from './converter';
  * @param {String} collectionPath - The collection name string 
  * @returns {CollectionReference<T>}
  */
- export const dataPoint = <T>(collectionPath: string): CollectionReference<T> =>
- firestoreDb.collection(collectionPath)
-   .withConverter(
-     converter<T>()
-   );
+export const createCollection = <T = DocumentData>(collectionPath: string): CollectionReference<T> =>
+  firestoreDb.collection(collectionPath)
+    .withConverter(
+      converter<T>()
+    );
