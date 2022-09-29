@@ -4,9 +4,9 @@ export interface User {
   password: string;
   address?: {
     line1: string;
-    line2: string;
+    line2?: string;
     postcode: string;
-    verified: false
+    verified?: false
     timeAtAddress: {
       days: string;
       months: string;

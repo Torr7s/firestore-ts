@@ -1,8 +1,8 @@
-import { DocumentSnapshot } from 'firebase-admin/firestore'
+import { DocumentSnapshot } from 'firebase-admin/firestore';
 
 import { User } from './types/user.type';
 
-import { database } from './utils/firestore.utils';
+import { database } from './utils/database';
 
 (async (): Promise<void> => {
   await database
@@ -12,11 +12,21 @@ import { database } from './utils/firestore.utils';
       name: 'John Doe',
       email: 'johndoe@gmail.com',
       password: 'youshallnotpass'
-    }) /* It receives the types ! */
+    });
+
+  /**
+   * The update method is working fine as well, it will not overwrite the entire document
+   */
+  await database
+    .users
+    .doc('JD')
+    .update({
+      'address.timeAtAddress.days': '1'
+    });
 
   const userDoc: DocumentSnapshot<User> = await database.users.doc('JD').get();
-  const user: User = userDoc.data(); /* It's typed ! */
+  const user: User = userDoc.data();
 
-  console.log(user)
+  console.log(user);
 })();
 
