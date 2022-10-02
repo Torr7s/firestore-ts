@@ -1,35 +1,44 @@
-import crypto from 'node:crypto';
-import firestore from 'firebase-admin/firestore';
+import { UserModel } from './firestore/models/user.model';
+import { WithDocId } from './repositories/base.repository';
 
-import { User } from './types/user.type';
+import createUser from './functions/create-user';
+import getUser from './functions/get-user';
+import updateUser from './functions/update-user';
 
-import { usersCollection } from './utils/firestore/collections';
-
-const getUser = async (docId: string): Promise<User> => {
-  const userSnapshot: firestore.DocumentSnapshot<User> = await usersCollection.doc(docId).get();
-  const user: User = userSnapshot.exists && userSnapshot.data();
-
-  return user;
-}
-
-const createUser = async (props: User): Promise<User> => {
-  const uuid: string = crypto.randomUUID();
-
-  await usersCollection.doc(uuid).set(props);
-
-  const user: User = await getUser(uuid);
-
-  return user;
-}
-
-(async (): Promise<void> => {
-  const johnDoeUser: User = {
+async function main(): Promise<void> {
+  /**
+   * First, create a random user
+   */
+  await createUser({
     name: 'John Doe',
     email: 'johndoe@gmail.com',
-    password: 'youshallnotpass'
-  }
+    password: 'youshallnotpass',
+    address: {
+      city: 'London',
+      street: 'Oxford Street'
+    }
+  });
 
-  const user: User = await createUser(johnDoeUser);
+  /**
+   * Second, fetch a user by his email and update some data
+   */
+  let user: WithDocId<UserModel>;
 
-  console.log(user);
-})();
+  user = await getUser('johndoe@gmail.com');
+
+  console.log('Old User: ', user);
+
+  await updateUser(user.id, {
+    email: 'newjohndoe@gmail.com',
+    address: {
+      city: 'Hong Kong',
+      street: 'Nathan Road'
+    }
+  });
+
+  user = await getUser('newjohndoe@gmail.com');
+
+  console.log('New User: ', user);
+}
+
+main();
