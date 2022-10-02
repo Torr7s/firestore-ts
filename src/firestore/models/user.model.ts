@@ -1,6 +1,4 @@
-import { DocumentData } from 'firebase-admin/firestore';
-
-export interface UserModel extends DocumentData {
+export interface UserModel {
   id?: string;
   name: string;
   email: string;
