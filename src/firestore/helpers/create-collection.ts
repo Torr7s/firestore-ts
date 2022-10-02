@@ -1,6 +1,6 @@
 import { CollectionReference, DocumentData } from 'firebase-admin/firestore';
 
-import { firestoreDb } from '../../../firestore';
+import { firestoreDb } from '../../firestore';
 
 /**
  * Generic converter function that will take a type argument and create 
