@@ -12,7 +12,7 @@ import { WithDocId } from '../base.repository';
 
 import { createCollection } from '../../firestore/helpers/create-collection';
 
-export abstract class FirestoreRepository<T extends DocumentData> extends MainRepository<T> {
+export abstract class FirestoreRepository<T = DocumentData> extends MainRepository<T> {
   private collection: CollectionReference<T>;
 
   constructor(collectionPath: string) {
@@ -34,10 +34,10 @@ export abstract class FirestoreRepository<T extends DocumentData> extends MainRe
     }
   }
 
-  public async find(path: string, filter: WhereFilterOp, value: any): Promise<WithDocId<T>> {
+  public async find(path: keyof T, filter: WhereFilterOp, value: any): Promise<WithDocId<T>> {
     const snapshot: QuerySnapshot<T> = await this.collection
       .where(
-        path,
+        path as string,
         filter,
         value
       )
