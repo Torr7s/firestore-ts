@@ -1,9 +1,9 @@
 {
   "app": {
     "firestore": {
-      "private_key": "firestore_private_key",
-      "client_email": "firestore_client_email",
-      "project_id": "firestore_project_id"    
+      "clientEmail": "firestore_client_email",
+      "privateKey": "firestore_private_key",
+      "projectId": "firestore_project_id"   
     }
   }
 }
