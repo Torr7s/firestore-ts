@@ -1,6 +1,6 @@
 # Firestore Typescript
 
-How to use Firestore with Typescript, using helper to create collections faster and applying the Repository Pattern concept.
+How to use Firestore with Typescript, using helper to create collections faster and applying the Repository Pattern concept using generics.
 
 ## Notes
 
